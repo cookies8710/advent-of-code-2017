@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-static int score(const char *s);
+static void evaluate(const char *s, int *score, int *garbage_size);
 
 int main(void)
 {
@@ -11,26 +11,31 @@ int main(void)
 	getline(&line, &size, f);
 	fclose(f);
 
-	printf("Part 1 - total score = %d\n", score(line));
+	int score = 0, garbage_size = 0;
+	evaluate(line, &score, &garbage_size);
+	printf("Part 1 - total score = %d\n", score);
+	printf("Part 2 - garbage size = %d\n", garbage_size);
 
 	printf("done\n");
 	return 0;
 }
 
-static int score(const char *s)
+static void evaluate(const char *s, int *score, int *garbage_size)
 {
 	bool garbage = false;
 	int depth = 0;
-	int score = 0;
+	*score = 0;
+	*garbage_size = 0;
 	while(*s)
 	{
+		if (garbage && *s != '>' && *s != '!') (*garbage_size)++;
 		switch (*s)
 		{
 			case '{':
 				if (!garbage) 
 				{
 					depth++;
-					score += depth;
+					*score += depth;
 				}
 				break;
 			case '}':
@@ -48,6 +53,4 @@ static int score(const char *s)
 		}
 		s++;
 	}
-
-	return score;
 }
