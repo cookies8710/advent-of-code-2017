@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 static void evaluate(const char *s, int *score, int *garbage_size);
@@ -16,6 +17,8 @@ int main(void)
 	printf("Part 1 - total score = %d\n", score);
 	printf("Part 2 - garbage size = %d\n", garbage_size);
 
+	free(line);
+
 	printf("done\n");
 	return 0;
 }
@@ -29,14 +32,10 @@ static void evaluate(const char *s, int *score, int *garbage_size)
 	while(*s)
 	{
 		if (garbage && *s != '>' && *s != '!') (*garbage_size)++;
-		switch (*s)
+		switch (*s++)
 		{
 			case '{':
-				if (!garbage) 
-				{
-					depth++;
-					*score += depth;
-				}
+				if (!garbage) *score += ++depth;
 				break;
 			case '}':
 				if (!garbage) depth--;
@@ -51,6 +50,5 @@ static void evaluate(const char *s, int *score, int *garbage_size)
 				s++;
 				break;
 		}
-		s++;
 	}
 }
