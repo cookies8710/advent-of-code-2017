@@ -1,0 +1,26 @@
+B = 109 300
+C = 126 300
+while(true) {
+	F = 1
+	D = 2
+	do {
+		E = 2
+		do {
+			if (E * D == B)
+				F = 0
+			E++
+		} while (E != B)
+		D++
+	} while (D != B)
+	if (F == 0)
+		H++
+	if (B == C)
+		exit
+	B += 17
+} 
+
+
+F will be set to 0 when B has E and D as factors
+~ F == 1 is equvalent to B is prime
+
+i.e. H is the number of non-primes between 109 300 and 126 300 inclusive which can be written in form (109300 + k * 17) - the answer is 911
